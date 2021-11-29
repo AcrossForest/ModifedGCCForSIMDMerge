@@ -22,7 +22,7 @@ if contains all $argv
 end
 
 if contains buildall $argv
-    set argv $argv step-1 step-2 step-3 step-4-conf step-4-build step-5 step-6 step-7
+    set argv $argv setlink step-1 step-2 step-3 step-4-conf step-4-build step-5 step-6 step-7
 end
 
 
@@ -88,15 +88,50 @@ if contains unpack $argv
     end
 end
 
-if contains setlink $argv
+if contains setlink; or contains step-0 $argv
     pushd gcc-10.1.0
         ln -s ../mpfr-3.1.2 mpfr
         ln -s ../gmp-6.0.0 gmp
         ln -s ../mpc-1.0.2 mpc
         ln -s ../isl-0.18 isl
         ln -s ../cloog-0.18.1 cloog
+
+        pushd isl
+
+            autoreconf -f -i
+        popd
     popd 
 end
+
+if contains reconfigure $argv; or contains step-0 $ argv
+    # This is a fix to a bug
+    # It appears to cause a problem to clone source files from git instead of unzip from a tar
+    # git dosen't preserve the timestamp and inappropriatly forgot to automatically triger something and it requires you to provide aclocal-1.15 which you don't have (you have aclocal-1.16)
+    # I only see this problem for isl currently. But to prevent further issues, I do it for all of them.
+    pushd binutils-2.35
+        autoreconf -f -i
+    popd
+    pushd gcc-10.1.0
+        pushd mpfr
+            autoreconf -f -i
+        popd
+        pushd gmp
+            autoreconf -f -i
+        popd
+        pushd mpc
+            autoreconf -f -i
+        popd
+        pushd isl
+            autoreconf -f -i
+        popd
+        pushd cloog
+            autoreconf -f -i
+        popd
+        autoreconf -f -i
+    popd
+
+end
+
 
 if not test -e $installPath
     mkdir -p $installPath
@@ -145,7 +180,7 @@ if contains build-gcc-round-1 $argv; or contains step-3 $argv
     popd
 end
 
-if contains build-glibc-round-1-configure $argv; or contains step-4-conf $argv
+if contains build-glibc-round-1-configure $argv; or contains step-4-conf; or contains step-4 $argv
     rm -rf build-glibc
     mkdir -p build-glibc
     pushd build-glibc
@@ -153,7 +188,7 @@ if contains build-glibc-round-1-configure $argv; or contains step-4-conf $argv
     popd
 end
 
-if contains build-glibc-round-1-build $argv; or contains step-4-build $argv
+if contains build-glibc-round-1-build $argv; or contains step-4-build; or contains step-4 $argv
     pushd build-glibc
     make install-bootstrap-headers=yes install-headers
     make $JOBS csu/subdir_lib

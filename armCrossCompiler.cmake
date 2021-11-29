@@ -3,10 +3,10 @@ set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR "ARM")
 
 
-set(root ${CMAKE_CURRENT_SOURCE_DIR}/ModifiedToolchain)
+set(root ${CMAKE_CURRENT_LIST_DIR}/ModifiedToolchain)
 set(TOOLCHAIN_PREFIX aarch64-linux-)
 
-set(CMAKE_SYSROOT ${root}/aarch64-linux)
+# set(CMAKE_SYSROOT ${root}/aarch64-linux)
 # set(CMAKE_FIND_ROOT_PATH ${root}/bin)
 
 

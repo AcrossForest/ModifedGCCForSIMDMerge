@@ -103,7 +103,7 @@ if contains setlink; or contains step-0 $argv
     popd 
 end
 
-if contains reconfigure $argv; or contains step-0 $ argv
+if contains reconfigure $argv; or contains step-0 $argv
     # This is a fix to a bug
     # It appears to cause a problem to clone source files from git instead of unzip from a tar
     # git dosen't preserve the timestamp and inappropriatly forgot to automatically triger something and it requires you to provide aclocal-1.15 which you don't have (you have aclocal-1.16)

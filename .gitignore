@@ -1,0 +1,12 @@
+/*.tar.*
+/build-*
+# binutils-*/
+# cloog-*/
+# gcc-*/
+# glibc-*/
+# gmp-*/
+# isl-*/
+# linux-*/
+# mpc-*/
+# mpfr-*/
+.vscode

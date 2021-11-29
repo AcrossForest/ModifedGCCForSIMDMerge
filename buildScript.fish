@@ -22,7 +22,7 @@ if contains all $argv
 end
 
 if contains buildall $argv
-    set argv $argv setlink step-1 step-2 step-3 step-4-conf step-4-build step-5 step-6 step-7
+    set argv $argv step-0 step-1 step-2 step-3 step-4 step-5 step-6 step-7
 end
 
 
